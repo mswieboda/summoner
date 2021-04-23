@@ -7,9 +7,11 @@ class PlayState extends FlxState {
   var player: Player;
 
   override public function create() {
-    player = new Player(30, 30, 0xFF00FF00);
+    player = new Player(30, 30);
 
     add(player);
+
+    FlxG.mouse.visible = false;
 
     super.create();
   }
