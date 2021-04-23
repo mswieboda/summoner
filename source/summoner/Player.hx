@@ -2,11 +2,13 @@ package summoner;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxColor;
 
 class Player extends FlxSprite {
   static inline var MOVEMENT_SPEED = 100;
   static inline var DRAG: Int = 1000;
+  static inline var WALK_FPS = 6;
 
   var direction: Int;
 
@@ -19,14 +21,19 @@ class Player extends FlxSprite {
 
     loadGraphic(AssetPaths.player__png, true, 32, 32);
 
-    animation.add("North", [0], 12, false);
-    animation.add("Northeast", [1], 12, false);
-    animation.add("East", [2], 12, false);
-    animation.add("Southeast", [3], 12, false);
-    animation.add("South", [4], 12, false);
-    animation.add("Southwest", [5], 12, false);
-    animation.add("West", [6], 12, false);
-    animation.add("Northwest", [7], 12, false);
+    // TODO; make a method to figure this out:
+    // COLS = 4;
+    // var row = Direction.toSpriteRow(Direction.North);
+    // var n = row * COLS - row;
+    // n, n + 2, n + 1, n + 2;
+    animation.add("North", [0, 2, 1, 2], WALK_FPS, false);
+    animation.add("Northeast", [3, 5, 4, 5], WALK_FPS, false);
+    animation.add("East", [6, 8, 7, 8], WALK_FPS, false);
+    animation.add("Southeast", [9, 11, 10, 11], WALK_FPS, false);
+    animation.add("South", [12, 14, 13, 14], WALK_FPS, false);
+    animation.add("Southwest", [15, 17, 16, 17], WALK_FPS, false);
+    animation.add("West", [18, 20, 19, 20], WALK_FPS, false);
+    animation.add("Northwest", [21, 23, 22, 23], WALK_FPS, false);
 
     drag.x = drag.y = DRAG;
   }
@@ -38,13 +45,22 @@ class Player extends FlxSprite {
   }
 
   function updateMovement() {
-    var up = FlxG.keys.anyPressed([UP, W]);
-    var down = FlxG.keys.anyPressed([DOWN, S]);
-    var left = FlxG.keys.anyPressed([LEFT, A]);
-    var right = FlxG.keys.anyPressed([RIGHT, D]);
+    var ups = [FlxKey.UP, FlxKey.W];
+    var downs = [FlxKey.DOWN, FlxKey.S];
+    var lefts = [FlxKey.LEFT, FlxKey.A];
+    var rights = [FlxKey.RIGHT, FlxKey.D];
+    var up = FlxG.keys.anyPressed(ups);
+    var down = FlxG.keys.anyPressed(downs);
+    var left = FlxG.keys.anyPressed(lefts);
+    var right = FlxG.keys.anyPressed(rights);
 
     if (up && down) up = down = false;
     if (left && right) left = right = false;
+
+    if (FlxG.keys.anyJustReleased(ups.concat(downs).concat(lefts).concat(rights))) {
+      animation.pause();
+    }
+
     if (!(up || down || left || right)) return;
 
     var direction = Direction.NONE;
