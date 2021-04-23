@@ -4,13 +4,13 @@ package summoner;
 class Direction {
   public static inline var NONE = 0;
   public static inline var NORTH = 1;
-  public static inline var NORTHWEST = 2;
-  public static inline var WEST = 3;
-  public static inline var SOUTHWEST = 4;
+  public static inline var NORTHEAST = 2;
+  public static inline var EAST = 3;
+  public static inline var SOUTHEAST = 4;
   public static inline var SOUTH = 5;
-  public static inline var SOUTHEAST = 6;
-  public static inline var EAST = 7;
-  public static inline var NORTHEAST = 8;
+  public static inline var SOUTHWEST = 6;
+  public static inline var WEST = 7;
+  public static inline var NORTHWEST = 8;
 
   var direction: Int;
 
@@ -26,19 +26,19 @@ class Direction {
     switch(direction) {
       case NORTH:
         switch(other) {
-          case WEST:
-            return NORTHWEST;
           case EAST:
             return NORTHEAST;
+          case WEST:
+            return NORTHWEST;
           default:
             throw new haxe.Exception('can\'t combine $direction and $other');
         }
       case SOUTH:
         switch(other) {
-          case WEST:
-            return SOUTHWEST;
           case EAST:
             return SOUTHEAST;
+          case WEST:
+            return SOUTHWEST;
           default:
             throw new haxe.Exception('can\'t combine $direction and $other');
         }
@@ -57,20 +57,20 @@ class Direction {
         return "None";
       case NORTH:
         return "North";
-      case NORTHWEST:
-        return "Northwest";
-      case WEST:
-        return "West";
-      case SOUTHWEST:
-        return "Southwest";
-      case SOUTH:
-        return "South";
-      case SOUTHEAST:
-        return "Southeast";
-      case EAST:
-        return "East";
       case NORTHEAST:
         return "Northeast";
+      case EAST:
+        return "East";
+      case SOUTHEAST:
+        return "Southeast";
+      case SOUTH:
+        return "South";
+      case SOUTHWEST:
+        return "Southwest";
+      case WEST:
+        return "West";
+      case NORTHWEST:
+        return "Northwest";
       default:
         return "_InvalidDirection_";
     }
